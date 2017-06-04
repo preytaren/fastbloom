@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import mmap
+import mmap, binascii
 
 
 PAGE_SIZE = 4096
@@ -27,7 +27,7 @@ class MmapBitSet(object):
         :return: None
         """
         self._data_store.seek(pos)
-        self._data_store.write_byte(str(byte))
+        self._data_store.write_byte(byte)
 
     def _read_byte(self, pos):
         """
@@ -36,7 +36,7 @@ class MmapBitSet(object):
         :return: ascii code of byte that read from datastore
         """
         self._data_store.seek(pos)
-        return ord(self._data_store.read_byte())
+        return self._data_store.read_byte()
 
     def set(self, pos, val=True):
         """
@@ -54,12 +54,13 @@ class MmapBitSet(object):
         byte_no = pos / Byte_SIZE
         inside_byte_no = pos % Byte_SIZE
 
-        raw_byte = self._read_byte(byte_no)
+        raw_byte = ord(self._read_byte(byte_no))
         if val:
             set_byte = raw_byte | (2 ** inside_byte_no)
         else:
-            set_byte = raw_byte & (2**Byte_SIZE - 1 - 2 ** inside_byte_no)
-        self._write_byte(byte_no, set_byte)
+            set_byte = raw_byte & (2 ** Byte_SIZE - 1 - 2 ** inside_byte_no)
+        set_byte_char = chr(set_byte)
+        self._write_byte(byte_no, set_byte_char)
 
     def test(self, pos):
         """
@@ -70,7 +71,7 @@ class MmapBitSet(object):
         byte_no = pos / Byte_SIZE
         inside_byte_no = pos % Byte_SIZE
 
-        raw_byte = self._read_byte(byte_no)
+        raw_byte = ord(self._read_byte(byte_no))
         bit = raw_byte & 2 ** inside_byte_no
         return True if bit else False
 
