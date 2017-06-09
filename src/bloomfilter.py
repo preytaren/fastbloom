@@ -16,8 +16,7 @@ class BloomFilter(object):
     which use Murmur hash and Spooky hash
     """
     def __init__(self, capacity, error_rate=0.0001, fname=None,
-                 h1=pyhash.murmur3_x64_128(), h2=pyhash.spooky_128(),
-                 faster_flag=False):
+                 h1=pyhash.murmur3_x64_128(), h2=pyhash.spooky_128()):
         """
 
         :param capacity: size of possible input elements
@@ -31,9 +30,6 @@ class BloomFilter(object):
         self.error_rate = error_rate
         self.num_of_bits, self.num_of_hashes = self._adjust_param(4096 * 8,
                                                                   error_rate)
-        if faster_flag and self.num_of_hashes >= 10:
-            self.num_of_hashes /= 2
-
         self._fname = fname
         self._data_store = MmapBitSet(self.num_of_bits)
         self._size = len(self._data_store)

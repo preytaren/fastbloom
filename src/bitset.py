@@ -55,10 +55,12 @@ class MmapBitSet(object):
         inside_byte_no = pos % Byte_SIZE
 
         raw_byte = ord(self._read_byte(byte_no))
-        if val:
+        if val:  # set to 1
             set_byte = raw_byte | (2 ** inside_byte_no)
-        else:
+        else:  # set to 0
             set_byte = raw_byte & (2 ** Byte_SIZE - 1 - 2 ** inside_byte_no)
+        if set_byte == raw_byte:
+            return
         set_byte_char = chr(set_byte)
         self._write_byte(byte_no, set_byte_char)
 
