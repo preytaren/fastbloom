@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import math, logging
+import math
+import logging
+import functools
 
 import pyhash
 
 from src.bitset import MmapBitSet
-from src.hash_tools import double_hashing_series
+from src.hash_tools import hashes
 
 
 class BloomFilter(object):
@@ -13,24 +15,29 @@ class BloomFilter(object):
     A bloom filter implementation,
     which use Murmur hash and Spooky hash
     """
-    def __init__(self, input_size, acceptable_error_rate=0.001,
-                 h1=pyhash.murmur3_x64_128(), h2=pyhash.spooky_128()):
+    def __init__(self, capacity, error_rate=0.0001, fname=None,
+                 h1=pyhash.murmur3_x64_128(), h2=pyhash.spooky_128(),
+                 faster_flag=False):
         """
 
-        :param input_size:
-        :param acceptable_error_rate:
-        :return:
+        :param capacity: size of possible input elements
+        :param error_rate: posi
+        :param fname:
+        :param h1:
+        :param h2:
         """
         # calculate m & k
-        self._input_size = input_size
-        self._num_of_bits, self._num_of_hash = self._adjust_param(4096*8,
-                                                                  acceptable_error_rate)
+        self.capacity = capacity
+        self.error_rate = error_rate
+        self.num_of_bits, self.num_of_hashes = self._adjust_param(4096 * 8,
+                                                                  error_rate)
+        if faster_flag and self.num_of_hashes >= 10:
+            self.num_of_hashes /= 2
 
-        self._data_store = MmapBitSet(self._num_of_bits)
+        self._fname = fname
+        self._data_store = MmapBitSet(self.num_of_bits)
         self._size = len(self._data_store)
-        self._hashes = double_hashing_series(h1,
-                                             h2,
-                                             self._num_of_hash)
+        self._hashes = functools.partial(hashes, h1=h1, h2=h2, number=self.num_of_hashes)
 
     def _adjust_param(self, bits_size, expected_error_rate):
         """
@@ -46,7 +53,7 @@ class BloomFilter(object):
         :param expected_error_rate:
         :return:
         """
-        n, estimated_m, estimated_k, error_rate = self._input_size, int(bits_size/2), None, 1
+        n, estimated_m, estimated_k, error_rate = self.capacity, int(bits_size / 2), None, 1
         weight, e = math.log(2), math.exp(1)
         while error_rate > expected_error_rate:
             estimated_m *= 2
@@ -61,19 +68,39 @@ class BloomFilter(object):
         :param msg:
         :return:
         """
+        if not isinstance(msg, str):
+            msg = str(msg)
         positions = []
-        for _hash in self._hashes:
-            positions.append(_hash(msg) % self._num_of_bits)
+        for _hash_value in self._hashes(msg):
+            positions.append(_hash_value % self.num_of_bits)
         for pos in sorted(positions):
             self._data_store.set(int(pos))
 
+    @staticmethod
+    def open(self, fname):
+        with open(fname) as fp:
+            raise NotImplementedError
+
+    def __str__(self):
+        """
+        output bitset directly
+        :return:
+        """
+        pass
+
     def __contains__(self, msg):
+        if not isinstance(msg, str):
+            msg = str(msg)
         positions = []
-        for hash in self._hashes:
-            positions.append(hash(msg) % self._num_of_bits)
+        for _hash_value in self._hashes(msg):
+            positions.append(_hash_value % self.num_of_bits)
         for position in sorted(positions):
             if not self._data_store.test(position):
                 return False
         return True
+
+    def __len__(self):
+        return self._size
+
 
 

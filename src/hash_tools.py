@@ -2,29 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-def primes():
-    prime_list, ve = [2], 3
-    yield 2
-    while True:
-        for i in prime_list:
-            if ve % i == 0:
-                break
-            elif i * i > ve + 1:
-                yield ve
-                prime_list.append(ve)
-                break
-        else:
-            prime_list.append(ve)
-            yield ve
-        ve += 2
-
-
 def double_hashing_series(h1, h2, num_of_hashes):
-    count, prime_generator = 0, primes()
     result = []
-    while count < num_of_hashes:
-        result.append(double_hashing(prime_generator.send(None), h1, h2))
-        count += 1
+    for i in xrange(1, num_of_hashes+1):
+        result.append(double_hashing(i, h1, h2))
     return result
 
 
@@ -36,6 +17,14 @@ def double_hashing(delta, h1, h2):
     :param h2: hash function
     :return: a new hash function equals h1 + delta * h2
     """
-    def new_hash(*args, **kwargs):
-        return h1(*args, **kwargs) + delta * h2(*args, **kwargs)
+    def new_hash(msg):
+        return h1(msg) + delta * h2(msg)
     return new_hash
+
+
+def hashes(msg, h1, h2, number):
+    h1_value, h2_value = h1(msg), h2(msg)
+    result = []
+    for i in xrange(number):
+        result.append(h1_value + i*h2_value)
+    return result

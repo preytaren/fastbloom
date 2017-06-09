@@ -4,8 +4,8 @@ from src.bloomfilter import BloomFilter
 def test_bloom_filter_init():
     bf = BloomFilter(1000, 0.001)
     # print bf._num_of_bits
-    assert bf._num_of_bits % (4096 * 8) == 0
-    assert bf._num_of_hash == 23
+    assert bf.num_of_bits % (4096 * 8) == 0
+    assert bf.num_of_hashes == 23
 
 
 def test_test_msg():

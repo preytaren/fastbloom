@@ -80,3 +80,4 @@ class MmapBitSet(object):
 
     def __del__(self):
         self._data_store.close()
+
