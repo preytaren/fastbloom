@@ -22,7 +22,7 @@ Install pyhash
 # Examples
 ```python
 >>> from src.bloomfilter import BloomFilter
->>> filter_ = Bloomfilter(1000, 0.001) # set size of input 1000, error rate 1%
+>>> filter_ = Bloomfilter(1000, 0.001) # set size of input 1000, error rate 0.1%
 >>> filter_.add('www.google.com')
 >>> 'www.google.com' in filter_
 True
@@ -33,8 +33,8 @@ False
 # Benchmark
 When input_size set to 1000000, accepted_error_rate set to 0.01%
 - Memory consumption: 4 MB
-- Add operation: 6917.97 ops/s
-- Check operation: 24015.74 ops/s
+- Add operation: 7322.42 ops
+- Check operation: 24788.79 ops
 - Actual fault positive rate: 0.0000
 
 You can just run the [benchmark.py](https://github.com/preytaren/pybloomfilter/blob/master/test/benchmarks.py) to see the actual benchmarks
