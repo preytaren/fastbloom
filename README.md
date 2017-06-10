@@ -22,7 +22,7 @@ Install pyhash
 # Examples
 ```python
 >>> from src.bloomfilter import BloomFilter
->>> filter_ = Bloomfilter(1000, 0.001) # set size of input 1000, error rate 1%
+>>> filter_ = Bloomfilter(1000, 0.001) # set size of input 1000, error rate 0.1%
 >>> filter_.add('www.google.com')
 >>> 'www.google.com' in filter_
 True
