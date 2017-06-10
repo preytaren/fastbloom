@@ -5,5 +5,5 @@ before_install:
 python:
    - "2.7"
 install:
-   - sudo pip2 install pyhash
+   - sudo pip install pyhash
 script: py.test

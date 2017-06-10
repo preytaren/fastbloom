@@ -24,7 +24,5 @@ def double_hashing(delta, h1, h2):
 
 def hashes(msg, h1, h2, number):
     h1_value, h2_value = h1(msg), h2(msg)
-    result = []
     for i in xrange(number):
-        result.append(h1_value + i*h2_value)
-    return result
+        yield (h1_value + i*h2_value)

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import mmap, binascii
+import mmap, math
 
 
 PAGE_SIZE = 4096
 Byte_SIZE = 8
+Byte_SIZE_SHIFT = 3
 
 
 class MmapBitSet(object):
@@ -51,14 +52,14 @@ class MmapBitSet(object):
                              'should between {start} - {end}'.format(bit=pos,
                                                                      start=0,
                                                                      end=self._size))
-        byte_no = pos / Byte_SIZE
+        byte_no = pos >> Byte_SIZE_SHIFT
         inside_byte_no = pos % Byte_SIZE
 
         raw_byte = ord(self._read_byte(byte_no))
         if val:  # set to 1
-            set_byte = raw_byte | (2 ** inside_byte_no)
+            set_byte = raw_byte | (1 << inside_byte_no)
         else:  # set to 0
-            set_byte = raw_byte & (2 ** Byte_SIZE - 1 - 2 ** inside_byte_no)
+            set_byte = raw_byte & (1 << Byte_SIZE - 1 - 1 << inside_byte_no)
         if set_byte == raw_byte:
             return
         set_byte_char = chr(set_byte)
