@@ -1,10 +1,10 @@
 language: python
 sudo: enable
 before_install:
-   - sudo apt-get -qq update
-   - sudo apt-get install libboost-all-dev
+   - apt-get -qq update
+   - apt-get install libboost-all-dev
 python:
    - "2.7"
 install:
-   - sudo pip install pyhash
+   - pip install pyhash
 script: py.test
