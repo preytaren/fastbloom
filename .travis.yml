@@ -1,4 +1,5 @@
 language: python
+sudo: enable
 before_install:
    - sudo apt-get -qq update
    - sudo apt-get install libboost-all-dev
