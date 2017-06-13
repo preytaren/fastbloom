@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from fastpybloom.bitset import MmapBitSet
+from fastbloom.bitset import MmapBitSet
 
 
 def test_mmap_bit_set_init():

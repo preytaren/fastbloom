@@ -17,9 +17,9 @@ AUTHOR = "preyta ren"
 
 AUTHOR_EMAIL = "preyta@163.com"
 
-URL = "https://github.com/preytaren/pybloomfilter"
+URL = "https://github.com/preytaren/fastbloom"
 
-VERSION = "v0.1"
+VERSION = "v0.1.0"
 
 LICENSE = "MIT"
 
