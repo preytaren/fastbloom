@@ -1,4 +1,4 @@
-from pybloomfilter.bloomfilter import BloomFilter
+from fastpybloom.bloomfilter import BloomFilter
 
 
 def test_bloom_filter_init():

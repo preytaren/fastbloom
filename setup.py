@@ -17,6 +17,8 @@ AUTHOR = "preyta ren"
 
 AUTHOR_EMAIL = "preyta@163.com"
 
+URL = "https://github.com/preytaren/pybloomfilter"
+
 VERSION = "v0.1"
 
 LICENSE = "MIT"
@@ -39,6 +41,7 @@ setup(
     keywords=KEYWORDS,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
+    url=URL,
     license=LICENSE,
     packages=PACKAGES,
     include_package_data=True,
