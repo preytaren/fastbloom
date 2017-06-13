@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys, math, time
 
-from src.bloomfilter import BloomFilter
+from pybloomfilter.bloomfilter import BloomFilter
 
 
 def main(capacity=1000000, error_rate=0.0001):

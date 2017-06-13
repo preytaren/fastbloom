@@ -6,8 +6,8 @@ import functools
 
 import pyhash
 
-from src.bitset import MmapBitSet
-from src.hash_tools import hashes
+from bitset import MmapBitSet
+from hash_tools import hashes
 
 
 class BloomFilter(object):
