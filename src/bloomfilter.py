@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('/Library/Python/2.7/site-packages')
 import math
 import logging
 import functools
