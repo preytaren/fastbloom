@@ -1,3 +1,6 @@
+"""
+run with pytest
+"""
 from fastbloom.bloomfilter import BloomFilter
 
 
