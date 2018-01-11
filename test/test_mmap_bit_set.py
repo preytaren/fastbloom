@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+run with pytest
+"""
 from fastbloom.bitset import MmapBitSet
 
 
